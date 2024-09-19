@@ -11,9 +11,9 @@ const EditEmployee = () => {
   const [designation, setDesignation] = useState('');
   const [gender, setGender] = useState('');
   const [course, setCourse] = useState([]);
-  const [image, setImage] = useState(null); // State for image file
+  const [image, setImage] = useState(null);
   const navigate = useNavigate();
-  const { id } = useParams(); // Extract employee ID from URL params
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -35,7 +35,7 @@ const EditEmployee = () => {
   }, [id]);
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Store the selected file
+    setImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -47,19 +47,19 @@ const EditEmployee = () => {
     formData.append('MobileNo', mobileNo);
     formData.append('Designation', designation);
     formData.append('Gender', gender);
-    formData.append('Course', JSON.stringify(course)); // Convert array to JSON string
+    formData.append('Course', JSON.stringify(course));
     if (image) {
-      formData.append('Image', image); // Append the image file
+      formData.append('Image', image);
     }
 
     try {
       await axios.put(`http://localhost:5000/updateEmployee/${id}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Ensure correct content type
+          'Content-Type': 'multipart/form-data',
         },
       });
 
-      navigate('/employees'); // Redirect to employee list after update
+      navigate('/employees');
     } catch (error) {
       console.error('Error updating employee:', error.response ? error.response.data : error.message); // Log the error
     }   

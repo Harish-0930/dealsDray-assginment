@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './employee.css'; // Ensure CSS is correctly linked
+import './employee.css';
 import Navbar from './navbar';
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // State to store search term
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const fetchEmployees = async () => {
@@ -27,14 +27,13 @@ const EmployeeTable = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/employees/${id}`);
-      fetchEmployees(); // Re-fetch employees after deletion
+      fetchEmployees();
       
     } catch (error) {
       console.error('Error deleting employee', error);
     }
   };
 
-  // Filter employees based on the search term
   const filteredEmployees = employees.filter((employee) =>
     employee.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     employee.Email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -49,7 +48,7 @@ const EmployeeTable = () => {
           <h2>Employee List</h2>
           <div className="search-create">
             <div className="employee-info">
-              {/* Display total employee count */}
+              
               <span className="employee-count">Total Count: {employees.length}</span>
               <button className="create-button" onClick={() => navigate('/create-employee')}>
                 + Add New Employee
@@ -70,6 +69,7 @@ const EmployeeTable = () => {
         <table>
           <thead>
             <tr>
+              <th>Unique Id</th>
             <th>Image</th>
               <th>Name</th>
               <th>Email</th>
@@ -86,14 +86,16 @@ const EmployeeTable = () => {
               filteredEmployees.map((employee) => (
                 
                 <tr key={employee._id}>
+                  <td>{employee._id}</td>
                   <td>
                     <img
-                      src={`http://localhost:5000/uploads/${(employee.Image.filename)}`}// Assuming this is the correct path
+                      src={`http://localhost:5000/uploads/${(employee.Image.filename)}`}
                       alt={employee.Name}
                       className="employee-image"
                       style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%' }}
                     />
                   </td>
+                  
                   <td>{employee.Name}</td>
                   <td>{employee.Email}</td>
                   <td>{employee.MobileNo}</td>

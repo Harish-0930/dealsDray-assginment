@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './dashboard.css'; // For CSS styling
+import './dashboard.css';
 import Navbar from './navbar';
 
 const Dashboard = () => {

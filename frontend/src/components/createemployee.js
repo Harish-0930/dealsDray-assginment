@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './createemployee.css'; // Ensure CSS is correctly linked
+import './createemployee.css';
 
 const CreateEmployee = () => {
   const [name, setName] = useState('');
@@ -10,12 +10,12 @@ const CreateEmployee = () => {
   const [designation, setDesignation] = useState('');
   const [gender, setGender] = useState('');
   const [course, setCourse] = useState([]);
-  const [image, setImage] = useState(null); // State for image file
+  const [image, setImage] = useState(null);
 
   const navigate = useNavigate();
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Store the selected file
+    setImage(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -27,18 +27,18 @@ const CreateEmployee = () => {
     formData.append('MobileNo', mobileNo);
     formData.append('Designation', designation);
     formData.append('Gender', gender);
-    formData.append('Course', JSON.stringify(course)); // Convert array to JSON string
+    formData.append('Course', JSON.stringify(course));
     if (image) {
-      formData.append('Image', image); // Append the image file
+      formData.append('Image', image);
     }
 
     try {
       await axios.post('http://localhost:5000/createEmployee', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data', // Ensure correct content type
+          'Content-Type': 'multipart/form-data',
         },
       });
-      navigate('/employees'); // Redirect to employee list after creation
+      navigate('/employees');
     } catch (error) {
       console.error('Error creating employee:', error);
     }

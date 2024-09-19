@@ -84,7 +84,7 @@ app.post("/login",async(req,res)=>{
 // Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads'); // Folder where images will be stored
+    cb(null, './uploads');
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -197,39 +197,7 @@ app.put('/updateEmployee/:id',upload.single('Image'), async (req, res) => {
     }
 });
 
-  app.get('/searchEmployees', async (req, res) => {
-    const { search, sortBy, order = 'asc' } = req.query;
-  
-    try {
-      // Build the query object
-      let query = {};
-  
-      if (search) {
-        query = {
-          $or: [
-            { Name: { $regex: search, $options: 'i' } },  // Case-insensitive search
-            { Email: { $regex: search, $options: 'i' } }
-          ]
-        };
-      }
-  
-      // Sorting
-      let sortOptions = {};
-      if (sortBy) {
-        sortOptions[sortBy] = order === 'desc' ? -1 : 1;  // 1 for ascending, -1 for descending
-      }
-  
-      // Fetch employees based on search query and sort options
-      const employees = await Employee.find(query).sort(sortOptions);
-  
-      res.status(200).json(employees);
-    } catch (error) {
-      res.status(500).json({ message: 'Server error', error });
-    }
-  });
-  
 
-// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

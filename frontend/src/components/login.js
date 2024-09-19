@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css'; // Import the CSS file
-
+import './login.css';
 const Login = () => {
   const [credentials, setCredentials] = useState({
     f_userName: '',
@@ -22,16 +21,13 @@ const Login = () => {
 
     try {
       const response = await axios.post('http://localhost:5000/login', credentials);
-      // Store token and user details in local storage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('f_userName', response.data.f_userName);
       localStorage.setItem('userid', response.data.userid);
       console.log(response);
 
-      // Redirect to dashboard after login success
       navigate('/dashboard');
     } catch (err) {
-      // Handle errors such as incorrect password, email not found, etc.
       if (err.response) {
         alert("invalid login details")
       }
